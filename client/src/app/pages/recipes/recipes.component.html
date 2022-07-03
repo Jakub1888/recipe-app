@@ -1,0 +1,19 @@
+<p>recipes works!</p>
+<button (click)="getRecipes('carbonara')">click</button>
+<button (click)="getRecipes('pizza')">click</button>
+<div *ngIf="recipes$ | async as recipes">
+  <div *ngFor="let recipe of recipes[arrPos]?.hits.slice(start, end)">
+    <p>{{ recipe.recipe.label }}</p>
+  </div>
+  <button *ngIf="end !== 20" (click)="showMoreRecipes()">
+    Show more recipes
+  </button>
+  <button *ngIf="canLoadNext" (click)="loadNextPage()">Load next page</button>
+  <button *ngIf="arrPos > 0" (click)="showPreviousPage()">Back</button>
+  <button
+    *ngIf="totalPages > 0 && arrPos !== totalPages"
+    (click)="showNextPage()"
+  >
+    Next
+  </button>
+</div>
