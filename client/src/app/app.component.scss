@@ -1,6 +1,11 @@
+.outer {
+  min-height: 94%;
+}
+
 .inner {
+  padding: 20px;
+  padding-bottom: 50px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: calc(100vh - 120px);
+  align-items: flex-start;
 }

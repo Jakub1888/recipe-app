@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RecipesHttpService } from 'src/app/services/http/recipes-http.service';
@@ -8,8 +9,10 @@ import { RecipesStateService } from 'src/app/services/state/recipes-state.servic
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class RecipesComponent implements OnInit {
+  searchForm!: FormGroup;
   recipes$: Observable<any> = new Observable();
   queryStr!: string;
   start = 0;
@@ -22,7 +25,8 @@ export class RecipesComponent implements OnInit {
   constructor(
     private recipesHttpService: RecipesHttpService,
     private recipesStateService: RecipesStateService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -30,11 +34,16 @@ export class RecipesComponent implements OnInit {
     this.recipesHttpService.nextUrl.subscribe(
       (url) => (this.nextPageUrl = url)
     );
+    this.initForm();
     this.rememberPages();
   }
 
-  getRecipes(query: string) {
-    this.recipesHttpService.loadRecipes(query);
+  onGetRecipes() {
+    this.recipesHttpService.loadRecipes(
+      this.searchForm.value.recipe,
+      false,
+      true
+    );
     this.recipes$ = this.recipesHttpService.getRecipes();
   }
 
@@ -50,7 +59,7 @@ export class RecipesComponent implements OnInit {
     this.arrPos++;
     this.end = 4;
     this.canLoadNext = false;
-    this.recipesHttpService.loadRecipes(this.nextPageUrl, true);
+    this.recipesHttpService.loadRecipes(this.nextPageUrl, true, false);
     this.recipes$ = this.recipesHttpService.getRecipes();
   }
 
@@ -69,6 +78,12 @@ export class RecipesComponent implements OnInit {
         this.recipesStateService.arrPos = this.arrPos;
         this.recipesStateService.totalPages = this.totalPages;
       }
+    });
+  }
+
+  private initForm() {
+    this.searchForm = this.fb.group({
+      recipe: ['', Validators.required],
     });
   }
 }
