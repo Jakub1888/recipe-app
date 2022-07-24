@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,7 +10,6 @@ import * as AOS from 'aos';
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class RecipesComponent implements OnInit {
   searchForm!: FormGroup;

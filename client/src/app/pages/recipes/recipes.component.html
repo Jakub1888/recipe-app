@@ -28,27 +28,49 @@
     </li>
 
     <div class="recipe-buttons">
-      <button [hidden]="arrPos === 0" (click)="showPreviousPage()">Back</button>
       <app-button
         [config]="{
           type: 'button',
           matType: 'mat-raised-button',
           color: 'secondary',
           ariaLabel: 'Load next page button',
-          text: 'Load Next Page'
+          text: 'Load Next Page',
+          style: 'z-index: 1'
         }"
         *ngIf="nextPageUrl"
         (click)="loadNextPage()"
       ></app-button>
-      <button
-        [hidden]="totalPages === 1 && arrPos !== totalPages"
-        (click)="showNextPage()"
-      >
-        Next
-      </button>
+      <div class="buttons-navigation">
+        <app-button
+          [config]="{
+            type: 'button',
+            matType: 'mat-raised-button',
+            color: 'secondary',
+            ariaLabel: 'Show next page button',
+            icon: 'keyboard_arrow_left',
+            style: 'float: left;'
+          }"
+          *ngIf="arrPos > 0"
+          (click)="showPreviousPage()"
+        >
+        </app-button>
+        <app-button
+          [config]="{
+            type: 'button',
+            matType: 'mat-raised-button',
+            color: 'secondary',
+            ariaLabel: 'Show next page button',
+            icon: 'keyboard_arrow_right',
+            style: 'float: right;'
+          }"
+          *ngIf="totalPages > 0 && arrPos !== totalPages"
+          (click)="showNextPage()"
+        >
+          Next
+        </app-button>
+      </div>
     </div>
-
-    <div *ngIf="recipes[arrPos]?.hits.length < 1">
+    <div *ngIf="recipes[0].count === 0">
       No results found, please try another search term
     </div>
   </ul>
