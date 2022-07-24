@@ -1,14 +1,12 @@
 <span></span>
-<mat-card class="example-card">
+<mat-card class="recipe-card" (click)="openDialog()">
+  <img mat-card-image [src]="recipe.image" alt="Photo of {{ recipe.label }}" />
   <mat-card-header>
-    <mat-card-title>{{ recipe.label }}</mat-card-title>
+    <mat-card-title>{{
+      recipe.label.length > 45
+        ? (recipe.label | slice: 0:45) + "..."
+        : recipe.label
+    }}</mat-card-title>
     <mat-card-subtitle>{{ recipe.dishType }}</mat-card-subtitle>
   </mat-card-header>
-
-  <mat-card-content>
-    <p></p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>Save to Favourites</button>
-  </mat-card-actions>
 </mat-card>

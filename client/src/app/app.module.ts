@@ -15,6 +15,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RecipeItemComponent } from './pages/recipes/recipe-item/recipe-item.component';
 import { MaterialModule } from './material.module';
+import { RecipeDetailComponent } from './pages/recipes/recipe-detail/recipe-detail.component';
+import { ButtonComponent } from './shared/button/button.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { MaterialModule } from './material.module';
     HomeComponent,
     RecipesComponent,
     RecipeItemComponent,
+    RecipeDetailComponent,
+    ButtonComponent,
   ],
   imports: [
     BrowserModule,

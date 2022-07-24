@@ -21,12 +21,11 @@ export class RecipesHttpService {
   private recipesArr: any[] = [];
 
   nextUrl: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  loading = false;
+  arrPos: Subject<number> = new Subject<number>();
 
   constructor(private http: HttpClient) {}
 
   loadRecipes(query: string, more = false, search) {
-    this.loading = true;
     let queryUrl: string;
     if (!more) {
       queryUrl = `${this.url}&q=${query}&app_id=${this.APP_id}&app_key=${this.APP_key}`;
@@ -36,13 +35,15 @@ export class RecipesHttpService {
     this.http.get<any[]>(queryUrl).subscribe(
       (recipes) => {
         console.log(recipes);
-        if (search) this.recipesArr = [];
+        if (search) {
+          this.recipesArr = [];
+          this.arrPos.next(0);
+        }
         this.recipesArr.push(recipes);
         this.recipes$.next(this.recipesArr);
         this.nextUrl.next(
           this.recipesArr[this.recipesArr.length - 1]._links.next?.href
         );
-        this.loading = false;
       },
       (error) => console.log(error)
     );

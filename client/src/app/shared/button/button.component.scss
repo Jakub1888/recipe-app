@@ -1,0 +1,12 @@
+@use "../../../styles.scss" as v;
+
+button {
+  border-radius: 18px !important;
+  height: 2.6em;
+}
+
+button:disabled {
+  color: #fff !important;
+  background-color: lighten(v.$primary, 20%) !important;
+  cursor: default;
+}

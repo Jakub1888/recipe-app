@@ -1,9 +1,10 @@
 section {
-  margin-top: 2em;
-  padding: 0;
+  width: 50em;
+  min-height: 100vh;
+  background: rgb(235, 231, 231);
+  padding: 3em 0 0 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -33,14 +34,27 @@ section {
 }
 
 .recipes-list {
-  width: 50em;
+  width: 100%;
+  height: 100%;
+  margin-top: 4em;
+  padding: 0;
+  text-align: center;
 
   li {
-    display: inline;
-    float: left;
-    margin-bottom: 1em;
+    display: inline-block;
+    margin-bottom: 2.5em;
   }
   li:nth-of-type(even) {
-    margin-left: 1em;
+    margin-left: 1.5em;
   }
+}
+
+form {
+  margin-left: 4em;
+}
+
+.recipe-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

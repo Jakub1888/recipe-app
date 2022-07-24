@@ -4,6 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RecipesHttpService } from 'src/app/services/http/recipes-http.service';
 import { RecipesStateService } from 'src/app/services/state/recipes-state.service';
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-recipes',
@@ -13,13 +14,11 @@ import { RecipesStateService } from 'src/app/services/state/recipes-state.servic
 })
 export class RecipesComponent implements OnInit {
   searchForm!: FormGroup;
-  recipes$: Observable<any> = new Observable();
-  queryStr!: string;
+  recipes$: Observable<any[]>;
   start = 0;
   end = 4;
   arrPos!: number;
   totalPages = 0;
-  canLoadNext = false;
   nextPageUrl!: string;
 
   constructor(
@@ -30,12 +29,21 @@ export class RecipesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.recipes$ = this.recipesHttpService.getRecipes();
-    this.recipesHttpService.nextUrl.subscribe(
-      (url) => (this.nextPageUrl = url)
-    );
+    this.recipesStateService.firstLoad.subscribe((load) => {
+      if (load) {
+        this.recipesHttpService.loadRecipes('pizza', false, true);
+        this.recipesStateService.firstLoad.next(false);
+      } else {
+        this.recipes$ = this.recipesHttpService.getRecipes();
+        this.recipesHttpService.nextUrl.subscribe(
+          (url: string) => (this.nextPageUrl = url)
+        );
+      }
+    });
+
     this.initForm();
     this.rememberPages();
+    AOS.init();
   }
 
   onGetRecipes() {
@@ -45,20 +53,15 @@ export class RecipesComponent implements OnInit {
       true
     );
     this.recipes$ = this.recipesHttpService.getRecipes();
-  }
-
-  showMoreRecipes() {
-    this.end += 4;
-    if (this.end === 20) {
-      this.canLoadNext = true;
-    }
+    this.recipesHttpService.arrPos.subscribe((pos: number) => {
+      this.arrPos = pos;
+      this.totalPages = pos;
+    });
   }
 
   loadNextPage() {
     this.totalPages++;
     this.arrPos++;
-    this.end = 4;
-    this.canLoadNext = false;
     this.recipesHttpService.loadRecipes(this.nextPageUrl, true, false);
     this.recipes$ = this.recipesHttpService.getRecipes();
   }

@@ -1,0 +1,19 @@
+<div class="recipe-detail">
+  <h2>{{ recipe.label }}</h2>
+  <div class="recipe-inner">
+    <div class="detail-left">
+      <img src="{{ recipe.image }}" alt="image of {{ recipe.label }}" />
+
+      {{ recipe.calories.toFixed(0) }}
+      {{ recipe.totalNutrients.CHOCDF.quantity.toFixed(0) }}
+    </div>
+
+    <div class="detail-right">
+      <ul>
+        <li *ngFor="let ingredient of recipe.ingredientLines">
+          {{ ingredient }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -9,26 +9,47 @@
       type="text"
       formControlName="recipe"
     />
-    <button type="submit">Search</button>
+    <app-button
+      [config]="{
+        type: 'submit',
+        matType: 'mat-raised-button',
+        color: 'primary',
+        ariaLabel: 'Recipe search button',
+        text: 'Search',
+        style: 'position:relative;left:-78px;top:-1px;'
+      }"
+      [disabled]="!searchForm.valid"
+    >
+    </app-button>
   </form>
   <ul *ngIf="recipes$ | async as recipes" class="recipes-list">
-    <li *ngFor="let recipe of recipes[arrPos]?.hits.slice(start, end)">
+    <li data-aos="zoom-in" *ngFor="let recipe of recipes[arrPos]?.hits">
       <recipe-item [recipe]="recipe.recipe"></recipe-item>
     </li>
 
-    <button
-      *ngIf="end !== 20 && recipes[0].count > 0"
-      (click)="showMoreRecipes()"
-    >
-      Show more recipes
-    </button>
-    <button *ngIf="canLoadNext" (click)="loadNextPage()">Load next page</button>
-    <button *ngIf="arrPos > 0" (click)="showPreviousPage()">Back</button>
-    <button
-      *ngIf="totalPages > 0 && arrPos !== totalPages"
-      (click)="showNextPage()"
-    >
-      Next
-    </button>
+    <div class="recipe-buttons">
+      <button [hidden]="arrPos === 0" (click)="showPreviousPage()">Back</button>
+      <app-button
+        [config]="{
+          type: 'button',
+          matType: 'mat-raised-button',
+          color: 'secondary',
+          ariaLabel: 'Load next page button',
+          text: 'Load Next Page'
+        }"
+        *ngIf="nextPageUrl"
+        (click)="loadNextPage()"
+      ></app-button>
+      <button
+        [hidden]="totalPages === 1 && arrPos !== totalPages"
+        (click)="showNextPage()"
+      >
+        Next
+      </button>
+    </div>
+
+    <div *ngIf="recipes[arrPos]?.hits.length < 1">
+      No results found, please try another search term
+    </div>
   </ul>
 </section>
