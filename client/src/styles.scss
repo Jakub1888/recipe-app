@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+$primary: #e24e42;
+$secondary: #e9b000;
+$comp1: #eb6e80;
+$comp2: #008f95;
 
 /* Document
    ========================================================================== */
@@ -351,9 +355,4 @@ template {
 
 [hidden] {
   display: none;
-}
-
-$primary: #673ab7;
-.mat-raised-button:hover {
-  background: lighten(#673ab7, 10%);
 }

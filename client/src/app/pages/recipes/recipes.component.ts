@@ -38,6 +38,10 @@ export class RecipesComponent implements OnInit {
           (url: string) => (this.nextPageUrl = url)
         );
       }
+      this.recipesHttpService.arrPos.subscribe((pos: number) => {
+        this.arrPos = pos;
+        this.totalPages = pos;
+      });
     });
 
     this.initForm();
@@ -52,10 +56,6 @@ export class RecipesComponent implements OnInit {
       true
     );
     this.recipes$ = this.recipesHttpService.getRecipes();
-    this.recipesHttpService.arrPos.subscribe((pos: number) => {
-      this.arrPos = pos;
-      this.totalPages = pos;
-    });
   }
 
   loadNextPage() {

@@ -10,3 +10,10 @@ button:disabled {
   background-color: lighten(v.$primary, 20%) !important;
   cursor: default;
 }
+
+.btn-loadNext:hover {
+  background: lighten(v.$primary, 10%);
+}
+.btn-indicators:hover {
+  background: lighten(v.$comp2, 10%);
+}
