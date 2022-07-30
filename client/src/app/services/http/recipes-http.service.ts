@@ -13,10 +13,6 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class RecipesHttpService {
-  private APP_key = environment.APP_key;
-  private APP_id = environment.APP_id;
-  private url = `https://api.edamam.com/api/recipes/v2?type=public`;
-
   private recipes$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private recipesArr: any[] = [];
 
@@ -28,18 +24,18 @@ export class RecipesHttpService {
   loadRecipes(query: string, more = false, search) {
     let queryUrl: string;
     if (!more) {
-      queryUrl = `${this.url}&q=${query}&app_id=${this.APP_id}&app_key=${this.APP_key}`;
+      queryUrl = `http://localhost:3000/api/search?q=${query}`;
     } else {
       queryUrl = query;
     }
     this.http.get<any[]>(queryUrl).subscribe(
-      (recipes) => {
-        console.log(recipes);
+      (data: any) => {
+        const result = data.results;
         if (search) {
           this.recipesArr = [];
           this.arrPos.next(0);
         }
-        this.recipesArr.push(recipes);
+        this.recipesArr.push(result);
         this.recipes$.next(this.recipesArr);
         this.nextUrl.next(
           this.recipesArr[this.recipesArr.length - 1]._links.next?.href
